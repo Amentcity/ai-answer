@@ -1,9 +1,9 @@
 package com.answer.service.impl;
 
+import com.answer.mapper.ScoringResultMapper;
+import com.answer.model.entity.ScoringResult;
 import com.answer.service.ScoringResultService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.domain.ScoringResult;
-import generator.mapper.ScoringResultMapper;
 import org.springframework.stereotype.Service;
 
 /**

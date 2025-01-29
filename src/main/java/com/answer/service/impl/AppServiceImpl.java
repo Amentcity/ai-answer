@@ -1,9 +1,9 @@
 package com.answer.service.impl;
 
+import com.answer.mapper.AppMapper;
 import com.answer.service.AppService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.domain.App;
-import generator.mapper.AppMapper;
+import com.answer.model.entity.App;
 import org.springframework.stereotype.Service;
 
 /**

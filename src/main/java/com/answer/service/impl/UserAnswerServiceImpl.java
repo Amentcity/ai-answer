@@ -2,8 +2,8 @@ package com.answer.service.impl;
 
 import com.answer.service.UserAnswerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.domain.UserAnswer;
-import generator.mapper.UserAnswerMapper;
+import com.answer.model.entity.UserAnswer;
+import com.answer.mapper.UserAnswerMapper;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,7 +1,7 @@
 package com.answer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import generator.domain.Question;
+import com.answer.model.entity.Question;
 
 /**
 * @author Amentcity
