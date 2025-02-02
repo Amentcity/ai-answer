@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 public class UserAnswer {
     /**
-     * 
+     * id
      */
     @TableId(type = IdType.AUTO)
     private Long id;
