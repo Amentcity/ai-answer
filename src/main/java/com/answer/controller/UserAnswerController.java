@@ -1,6 +1,10 @@
 package com.answer.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.answer.model.entity.App;
+import com.answer.model.enums.ReviewStatusEnum;
+import com.answer.scoring.custom.ScoringStrategyExecutor;
+import com.answer.service.AppService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.answer.annotation.AuthCheck;
 import com.answer.common.BaseResponse;
@@ -40,7 +44,13 @@ public class UserAnswerController {
     private UserAnswerService userAnswerService;
 
     @Resource
+    private AppService appService;
+
+    @Resource
     private UserService userService;
+
+    @Resource
+    private ScoringStrategyExecutor scoringStrategyExecutor;
 
     // region 增删改查
 
@@ -61,6 +71,13 @@ public class UserAnswerController {
         userAnswer.setChoices(JSONUtil.toJsonStr(choices));
         // 数据校验
         userAnswerService.validUserAnswer(userAnswer, true);
+        // 判断app是否存在
+        Long appId = userAnswerAddRequest.getAppId();
+        App app = appService.getById(appId);
+        ThrowUtils.throwIf(app == null, ErrorCode.NOT_FOUND_ERROR);
+        if (!ReviewStatusEnum.PASS.equals(ReviewStatusEnum.getEnumByValue(app.getReviewStatus()))) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "该应用尚未通过审核");
+        }
         // 填充默认值
         User loginUser = userService.getLoginUser(request);
         userAnswer.setUserId(loginUser.getId());
@@ -69,6 +86,16 @@ public class UserAnswerController {
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         // 返回新写入的数据 id
         long newUserAnswerId = userAnswer.getId();
+        // 调用评分模块
+        try {
+            UserAnswer userAnswerWithResult = scoringStrategyExecutor.doScore(choices, app);
+            userAnswerWithResult.setId(newUserAnswerId);
+            userAnswerService.updateById(userAnswerWithResult);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR,"评分失败");
+
+        }
+
         return ResultUtils.success(newUserAnswerId);
     }
 

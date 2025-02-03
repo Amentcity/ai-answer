@@ -2,7 +2,6 @@ package com.answer.scoring;
 
 import com.answer.model.entity.App;
 import com.answer.model.entity.UserAnswer;
-
 import java.util.List;
 
 /**
@@ -15,5 +14,5 @@ public interface ScoringStrategy {
      * @param app
      * @return
      */
-//    UserAnswer doSource(List<String> choices, App app) extends Exception;
+    UserAnswer doScore(List<String> choices, App app) throws Exception;
 }
