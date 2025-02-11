@@ -107,7 +107,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "user_id", userId);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
@@ -130,14 +130,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (loginUser != null) {
             // 获取点赞
             QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postId);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
+            postThumbQueryWrapper.in("post_id", postId);
+            postThumbQueryWrapper.eq("user_id", loginUser.getId());
             PostThumb postThumb = postThumbMapper.selectOne(postThumbQueryWrapper);
             postVO.setHasThumb(postThumb != null);
             // 获取收藏
             QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postId);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
+            postFavourQueryWrapper.in("post_id", postId);
+            postFavourQueryWrapper.eq("user_id", loginUser.getId());
             PostFavour postFavour = postFavourMapper.selectOne(postFavourQueryWrapper);
             postVO.setHasFavour(postFavour != null);
         }
@@ -164,14 +164,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             loginUser = userService.getLoginUser(request);
             // 获取点赞
             QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postIdSet);
-            postThumbQueryWrapper.eq("userId", loginUser.getId());
+            postThumbQueryWrapper.in("post_id", postIdSet);
+            postThumbQueryWrapper.eq("user_id", loginUser.getId());
             List<PostThumb> postPostThumbList = postThumbMapper.selectList(postThumbQueryWrapper);
             postPostThumbList.forEach(postPostThumb -> postIdHasThumbMap.put(postPostThumb.getPostId(), true));
             // 获取收藏
             QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postIdSet);
-            postFavourQueryWrapper.eq("userId", loginUser.getId());
+            postFavourQueryWrapper.in("post_id", postIdSet);
+            postFavourQueryWrapper.eq("user_id", loginUser.getId());
             List<PostFavour> postFavourList = postFavourMapper.selectList(postFavourQueryWrapper);
             postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
         }

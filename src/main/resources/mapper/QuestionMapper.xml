@@ -6,12 +6,12 @@
 
     <resultMap id="BaseResultMap" type="com.answer.model.entity.Question">
             <id property="id" column="id" />
-            <result property="questionContent" column="questionContent" />
-            <result property="appId" column="appId" />
-            <result property="userId" column="userId" />
-            <result property="createTime" column="createTime" />
-            <result property="updateTime" column="updateTime" />
-            <result property="isDelete" column="isDelete" />
+            <result property="questionContent" column="question_content" />
+            <result property="appId" column="app_id" />
+            <result property="userId" column="user_id" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDelete" column="is_delete" />
     </resultMap>
 
     <sql id="Base_Column_List">

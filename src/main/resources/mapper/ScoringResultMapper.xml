@@ -6,16 +6,16 @@
 
     <resultMap id="BaseResultMap" type="com.answer.model.entity.ScoringResult">
             <id property="id" column="id" />
-            <result property="resultName" column="resultName" />
-            <result property="resultDesc" column="resultDesc" />
-            <result property="resultPicture" column="resultPicture" />
-            <result property="resultProp" column="resultProp" />
-            <result property="resultScoreRange" column="resultScoreRange" />
-            <result property="appId" column="appId" />
-            <result property="userId" column="userId" />
-            <result property="createTime" column="createTime" />
-            <result property="updateTime" column="updateTime" />
-            <result property="isDelete" column="isDelete" />
+            <result property="resultName" column="result_name" />
+            <result property="resultDesc" column="result_desc" />
+            <result property="resultPicture" column="result_picture" />
+            <result property="resultProp" column="result_prop" />
+            <result property="resultScoreRange" column="result_score_range" />
+            <result property="appId" column="app_id" />
+            <result property="userId" column="user_id" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDelete" column="is_delete" />
     </resultMap>
 
     <sql id="Base_Column_List">

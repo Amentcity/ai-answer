@@ -6,19 +6,19 @@
 
     <resultMap id="BaseResultMap" type="com.answer.model.entity.App">
             <id property="id" column="id" />
-            <result property="appName" column="appName" />
-            <result property="appDesc" column="appDesc" />
-            <result property="appIcon" column="appIcon" />
-            <result property="appType" column="appType" />
-            <result property="scoringStrategy" column="scoringStrategy" />
-            <result property="reviewStatus" column="reviewStatus" />
-            <result property="reviewMessage" column="reviewMessage" />
-            <result property="reviewerId" column="reviewerId" />
-            <result property="reviewTime" column="reviewTime" />
-            <result property="userId" column="userId" />
-            <result property="createTime" column="createTime" />
-            <result property="updateTime" column="updateTime" />
-            <result property="isDelete" column="isDelete" />
+            <result property="appName" column="app_name" />
+            <result property="appDesc" column="app_desc" />
+            <result property="appIcon" column="app_icon" />
+            <result property="appType" column="app_type" />
+            <result property="scoringStrategy" column="scoring_strategy" />
+            <result property="reviewStatus" column="review_status" />
+            <result property="reviewMessage" column="review_message" />
+            <result property="reviewerId" column="reviewer_id" />
+            <result property="reviewTime" column="review_time" />
+            <result property="userId" column="user_id" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDelete" column="is_delete" />
     </resultMap>
 
     <sql id="Base_Column_List">

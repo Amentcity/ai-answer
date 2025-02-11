@@ -101,23 +101,23 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         // 从多字段中搜索
         if (StringUtils.isNotBlank(searchText)) {
             // 需要拼接查询条件
-            queryWrapper.and(qw -> qw.like("resultName", searchText).or().like("resultDesc", searchText));
+            queryWrapper.and(qw -> qw.like("result_name", searchText).or().like("result_desc", searchText));
         }
         // 模糊查询
         queryWrapper.like(StringUtils.isNotBlank(choices), "choices", choices);
-        queryWrapper.like(StringUtils.isNotBlank(resultName), "resultName", resultName);
-        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "resultDesc", resultDesc);
-        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "resultDesc", resultDesc);
-        queryWrapper.like(StringUtils.isNotBlank(resultPicture), "resultPicture", resultPicture);
+        queryWrapper.like(StringUtils.isNotBlank(resultName), "result_name", resultName);
+        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "result_desc", resultDesc);
+        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "result_desc", resultDesc);
+        queryWrapper.like(StringUtils.isNotBlank(resultPicture), "result_picture", resultPicture);
         // 精确查询
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
-        queryWrapper.ne(ObjectUtils.isNotEmpty(resultId), "resultId", resultId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "appId", appId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(appType), "appType", appType);
-        queryWrapper.ne(ObjectUtils.isNotEmpty(resultScore), "resultScore", resultScore);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy), "scoringStrategy", scoringStrategy);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "user_id", userId);
+        queryWrapper.ne(ObjectUtils.isNotEmpty(resultId), "result_id", resultId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "app_id", appId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(appType), "app_type", appType);
+        queryWrapper.ne(ObjectUtils.isNotEmpty(resultScore), "result_score", resultScore);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy), "scoring_strategy", scoringStrategy);
         // 排序规则
         queryWrapper.orderBy(SqlUtils.validSortField(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC),

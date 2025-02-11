@@ -93,12 +93,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         String sortOrder = questionQueryRequest.getSortOrder();
         // 补充需要的查询条件
         // 模糊查询
-        queryWrapper.like(StringUtils.isNotBlank(questionContent), "questionContent", questionContent);
+        queryWrapper.like(StringUtils.isNotBlank(questionContent), "question_content", questionContent);
         // 精确查询
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "appId", appId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "app_id", appId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "user_id", userId);
         // 排序规则
         queryWrapper.orderBy(SqlUtils.validSortField(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC),

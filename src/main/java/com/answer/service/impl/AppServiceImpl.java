@@ -111,21 +111,21 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         // 从多字段中搜索
         if (StringUtils.isNotBlank(searchText)) {
             // 需要拼接查询条件
-            queryWrapper.and(qw -> qw.like("appName", searchText).or().like("appDesc", searchText));
+            queryWrapper.and(qw -> qw.like("app_name", searchText).or().like("app_desc", searchText));
         }
         // 模糊查询
-        queryWrapper.like(StringUtils.isNotBlank(appName), "appName", appName);
-        queryWrapper.like(StringUtils.isNotBlank(appDesc), "appDesc", appDesc);
-        queryWrapper.like(StringUtils.isNotBlank(reviewMessage), "reviewMessage", reviewMessage);
+        queryWrapper.like(StringUtils.isNotBlank(appName), "app_name", appName);
+        queryWrapper.like(StringUtils.isNotBlank(appDesc), "app_desc", appDesc);
+        queryWrapper.like(StringUtils.isNotBlank(reviewMessage), "review_message", reviewMessage);
         // 精确查询
-        queryWrapper.eq(StringUtils.isNotBlank(appIcon), "appIcon", appIcon);
+        queryWrapper.eq(StringUtils.isNotBlank(appIcon), "app_icon", appIcon);
         queryWrapper.eq(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-        queryWrapper.ne(ObjectUtils.isNotEmpty(appType), "appType", appType);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy), "scoringStrategy", scoringStrategy);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewStatus), "reviewStatus", reviewStatus);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewerId), "reviewerId", reviewerId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.ne(ObjectUtils.isNotEmpty(appType), "app_type", appType);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy), "scoring_strategy", scoringStrategy);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewStatus), "review_status", reviewStatus);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewerId), "reviewer_id", reviewerId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "user_id", userId);
         // 排序规则
         queryWrapper.orderBy(SqlUtils.validSortField(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC),

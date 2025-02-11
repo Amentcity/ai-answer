@@ -103,19 +103,19 @@ public class ScoringResultServiceImpl extends ServiceImpl<ScoringResultMapper, S
         // 从多字段中搜索
         if (StringUtils.isNotBlank(searchText)) {
             // 需要拼接查询条件
-            queryWrapper.and(qw -> qw.like("resultName", searchText).or().like("resultDesc", searchText));
+            queryWrapper.and(qw -> qw.like("result_name", searchText).or().like("result_desc", searchText));
         }
         // 模糊查询
-        queryWrapper.like(StringUtils.isNotBlank(resultProp), "resultProp", resultProp);
-        queryWrapper.like(StringUtils.isNotBlank(resultName), "resultName", resultName);
-        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "resultDesc", resultDesc);
+        queryWrapper.like(StringUtils.isNotBlank(resultProp), "result_prop", resultProp);
+        queryWrapper.like(StringUtils.isNotBlank(resultName), "result_name", resultName);
+        queryWrapper.like(StringUtils.isNotBlank(resultDesc), "result_desc", resultDesc);
         // 精确查询
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "appId", appId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(resultScoreRange), "resultScoreRange", resultScoreRange);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(resultPicture), "resultPicture", resultPicture);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "user_id", userId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(appId), "app_id", appId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(resultScoreRange), "result_score_range", resultScoreRange);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(resultPicture), "result_picture", resultPicture);
         // 排序规则
         queryWrapper.orderBy(SqlUtils.validSortField(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC),

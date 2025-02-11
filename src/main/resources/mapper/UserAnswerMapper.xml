@@ -6,19 +6,19 @@
 
     <resultMap id="BaseResultMap" type="com.answer.model.entity.UserAnswer">
             <id property="id" column="id" />
-            <result property="appId" column="appId" />
-            <result property="appType" column="appType" />
-            <result property="scoringStrategy" column="scoringStrategy" />
+            <result property="appId" column="app_id" />
+            <result property="appType" column="app_type" />
+            <result property="scoringStrategy" column="scoring_strategy" />
             <result property="choices" column="choices" />
-            <result property="resultId" column="resultId" />
-            <result property="resultName" column="resultName" />
-            <result property="resultDesc" column="resultDesc" />
-            <result property="resultPicture" column="resultPicture" />
-            <result property="resultScore" column="resultScore" />
-            <result property="userId" column="userId" />
-            <result property="createTime" column="createTime" />
-            <result property="updateTime" column="updateTime" />
-            <result property="isDelete" column="isDelete" />
+            <result property="resultId" column="result_id" />
+            <result property="resultName" column="result_name" />
+            <result property="resultDesc" column="result_desc" />
+            <result property="resultPicture" column="result_picture" />
+            <result property="resultScore" column="result_score" />
+            <result property="userId" column="user_id" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDelete" column="is_delete" />
     </resultMap>
 
     <sql id="Base_Column_List">
