@@ -1,0 +1,46 @@
+<script setup lang="ts">
+import { reactive } from 'vue'
+
+const form = reactive({
+  name: '',
+  posts: [{ value: '' }],
+})
+const handleAdd = () => {
+  form.posts.push({
+    value: '',
+  })
+}
+const handleDelete = (index: number) => {
+  form.posts.splice(index, 1)
+}
+
+// return {
+//   form,
+//   handleAdd,
+//   handleDelete
+// }
+</script>
+
+<template>
+  <div id="addQuestionPage">
+    <a-form :model="form" :style="{ width: '600px' }">
+      <a-form-item field="name" label="Username">
+        <a-input v-model="form.name" placeholder="please enter your username..." />
+      </a-form-item>
+      <a-form-item
+        v-for="(post, index) of form.posts"
+        :field="`posts[${index}].value`"
+        :label="`Post-${index}`"
+        :key="index"
+      >
+        <a-input v-model="post.value" placeholder="please enter your post..." />
+        <a-button @click="handleDelete(index)" :style="{ marginLeft: '10px' }">Delete</a-button>
+      </a-form-item>
+    </a-form>
+    <div>
+      <a-button @click="handleAdd">Add Post</a-button>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
