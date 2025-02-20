@@ -19,8 +19,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,unionId,mpOpenId,
-        userName,userAvatar,userProfile,
-        userRole,createTime,updateTime,isDelete
+        id,union_id,mp_open_id,
+        user_name,user_avatar,user_profile,
+        user_role,create_time,update_time,is_delete
     </sql>
 </mapper>

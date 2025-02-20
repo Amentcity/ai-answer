@@ -22,8 +22,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,appId,appType,scoringStrategy,choices,resultId,
-        resultName,resultDesc,resultPicture,resultScore,userId,
-        createTime,updateTime,isDelete
+        id,app_id,app_type,scoring_strategy,choices,result_id,
+        result_name,result_desc,result_picture,result_score,user_id,
+        create_time,update_time,is_delete
     </sql>
 </mapper>

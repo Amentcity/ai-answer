@@ -15,15 +15,15 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,postId,userId,
-        createTime,updateTime
+        id,post_id,user_id,
+        create_time,update_time
     </sql>
 
     <select id="listFavourPostByPage"
             resultType="com.answer.model.entity.Post">
         select p.*
         from post p
-                 join (select postId from post_favour where userId = #{favourUserId}) pf
-                      on p.id = pf.postId ${ew.customSqlSegment}
+                 join (select post_id from post_favour where user_id = #{favourUserId}) pf
+                      on p.id = pf.post_id ${ew.customSqlSegment}
     </select>
 </mapper>

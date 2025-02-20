@@ -2,7 +2,6 @@
 import { computed, ref, watchEffect } from 'vue'
 import message from '@arco-design/web-vue/es/message'
 import { getAppVoById } from '@/servers/api/appController.ts'
-// import { useRouter } from 'vue-router'
 import { dayjs } from '@arco-design/web-vue/es/_utils/date'
 import { userLoginStore } from '@/stores/counter.ts'
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from '@/constant/app.ts'
@@ -40,7 +39,9 @@ const loadData = async () => {
     id: props.id,
   })
   if (res.data.code === 0) {
-    data.value = res.data.data;
+    if (res.data.data){
+      data.value = res.data.data;
+    }
   } else {
     message.error('获取数据失败，' + res.data.message)
   }
@@ -53,7 +54,7 @@ watchEffect(() => {
 
 <template>
   <div id="AppDetailPage">
-    +<a-card>
+    <a-card>
       <a-row class="grid-demo" style="margin-bottom: 16px;">
         <a-col flex="auto" class="content-wrapper">
           <h2>{{data.appName}}</h2>
@@ -76,10 +77,10 @@ watchEffect(() => {
             </a-space></p>
           <p>创建时间：{{dayjs(data.createTime).format("YYYY-MM-DD HH:mm:ss")}}</p>
           <a-space size="large">
-            <a-button type="primary">开始答题</a-button>
+            <a-button type="primary" :href="`/answer/do/${id}`">开始答题</a-button>
             <a-button type="primary">分享应用</a-button>
-            <a-button type="primary">设置题目</a-button>
-            <a-button type="primary">设置评分</a-button>
+            <a-button type="primary" :href="`/add/question/${id}`">设置题目</a-button>
+            <a-button type="primary" :href="`/add/scoring_result/${id}`">设置评分</a-button>
             <a-button v-if="isMy" :href="`/add/app/${id}`">修改应用</a-button>
           </a-space>
         </a-col>

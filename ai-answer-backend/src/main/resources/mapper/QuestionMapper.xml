@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,questionContent,appId,userId,createTime,updateTime,
-        isDelete
+        id,question_content,app_id,user_id,create_time,update_time,
+        is_delete
     </sql>
 </mapper>

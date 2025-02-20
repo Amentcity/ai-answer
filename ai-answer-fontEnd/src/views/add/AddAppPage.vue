@@ -95,7 +95,7 @@ const handleSubmit = async () => {
         <a-input v-model="form.appDesc" placeholder="请输入应用名称" />
       </a-form-item>
       <a-form-item field="appIcon" label="应用图标">
-        <a-input v-model="form.appName" placeholder="请输入应用图标" />
+        <a-input v-model="form.appIcon" placeholder="请输入应用图标" />
       </a-form-item>
       <!--    <a-form-item field="appIcon" label="应用图标">-->
       <!--      <PictureUpLoader biz="string" :value="form.appIcon" :on-change="(value) => (form.appIcon = value)" />-->
