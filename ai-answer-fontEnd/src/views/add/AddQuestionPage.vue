@@ -3,11 +3,12 @@ import { ref, watchEffect } from 'vue'
 import {
   editQuestion,
   addQuestion,
-  listQuestionVoByPage
+  listQuestionVoByPage,
 } from '@/servers/api/questionController.ts'
-import {Message} from "@arco-design/web-vue";
-import message from "@arco-design/web-vue/es/message";
-import {useRouter} from "vue-router";
+import { Message } from '@arco-design/web-vue'
+import message from '@arco-design/web-vue/es/message'
+import { useRouter } from 'vue-router'
+import AiGenerateQuestionDrawer from '@/views/add/components/AiGenerateQuestionDrawer.vue'
 
 const props = defineProps({
   appId: {
@@ -18,40 +19,40 @@ const props = defineProps({
 // 题目内容结构（理解为题目列表）
 const questionContent = ref<API.QuestionContentDTO[]>([])
 
-const title = ref<string>('');
+const title = ref<string>('')
 
-const router = useRouter();
+const router = useRouter()
 //
-const oldDataId = ref<number>();
+const oldDataId = ref<number>()
 
 /**
  * 加载数据
  */
 const loadData = async () => {
   if (!props.appId) {
-    return;
+    return
   }
   const res = await listQuestionVoByPage({
     appId: Number(props.appId),
     current: 1,
     pageSize: 1,
-    sortField: "create_time",
-    sortOrder: "descend",
-  });
+    sortField: 'create_time',
+    sortOrder: 'descend',
+  })
   if (res.data.code === 0 && res.data.data?.records) {
-    if (res.data.data.records[0]){
-      oldDataId.value = res.data.data.records[0].id??undefined;
-      questionContent.value = res.data.data?.records[0].questionContent??[];
+    if (res.data.data.records[0]) {
+      oldDataId.value = res.data.data.records[0].id ?? undefined
+      questionContent.value = res.data.data?.records[0].questionContent ?? []
     }
   } else {
-    message.error("获取数据失败，" + res.data.message);
+    message.error('获取数据失败，' + res.data.message)
   }
-};
+}
 
 // 添加问题
 const addQuestionItem = () => {
-  if (title.value===null||title.value==='') {
-    return Message.info("请先输入题目");
+  if (title.value === null || title.value === '') {
+    return Message.info('请先输入题目')
   }
   questionContent.value.unshift({
     title: title.value,
@@ -90,31 +91,38 @@ const deleteOption = (question: API.QuestionContentDTO, optionItem: number) => {
  */
 const handleSubmit = async () => {
   if (!props.appId || !questionContent.value) {
-    return;
+    return
   }
-  let res;
+  let res
   // 如果是修改
   if (oldDataId.value) {
     res = await editQuestion({
-      id:oldDataId.value,
+      id: oldDataId.value,
       questionContent: questionContent.value,
-    });
+    })
   } else {
     // 创建
     res = await addQuestion({
-      appId:Number(props.appId),
+      appId: Number(props.appId),
       questionContent: questionContent.value,
-    });
+    })
   }
   if (res.data.code === 0) {
-    message.success("操作成功，即将跳转到应用详情页");
+    message.success('操作成功，即将跳转到应用详情页')
     setTimeout(() => {
-      router.push(`/app/detail/${props.appId}`);
-    }, 3000);
+      router.push(`/app/detail/${props.appId}`)
+    }, 3000)
   } else {
-    message.error("操作失败，" + res.data.message);
+    message.error('操作失败，' + res.data.message)
   }
-};
+}
+
+/**
+ * Ai 生成题目成功后执行
+ */
+const onAiGenerateSuccess = ( result: API.QuestionContentDTO[]) => {
+  questionContent.value = [...questionContent.value, ...result]
+}
 
 watchEffect(() => {
   loadData()
@@ -126,8 +134,15 @@ watchEffect(() => {
     <h2>设置题目</h2>
     <p>应用id: {{ appId }}</p>
     <a-form-item label="请输入题目">
-      <a-input v-model="title" allow-clear/>
-      <a-button type="primary" @click="addQuestionItem">添加题目</a-button>
+      <a-input v-model="title" allow-clear />
+      <a-space size="medium">
+        <a-button type="primary" @click="addQuestionItem">添加题目</a-button>
+        <!-- AI 生成抽屉 -->
+        <AiGenerateQuestionDrawer
+          :appId="appId"
+          :onSuccess="onAiGenerateSuccess"
+        />
+      </a-space>
     </a-form-item>
     <a-form :model="questionContent" layout="horizontal">
       <a-collapse :bordered="false">
@@ -189,11 +204,11 @@ watchEffect(() => {
         </a-collapse-item>
       </a-collapse>
     </a-form>
-    <div style="margin: 0 auto; text-align: center;">
+    <div style="margin: 0 auto; text-align: center">
       <a-button size="large" type="primary" @click="handleSubmit">提交</a-button>
     </div>
   </div>
-  {{questionContent}}
+  {{ questionContent }}
 </template>
 <style scoped>
 .formItem {

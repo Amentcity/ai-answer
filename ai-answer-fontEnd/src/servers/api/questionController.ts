@@ -1,9 +1,25 @@
+// @ts-ignore
 /* eslint-disable */
 import request from '@/request'
 
 /** 此处后端没有提供注释 POST /question/add */
 export async function addQuestion(body: API.QuestionAddRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseLong>('/question/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
+/** 此处后端没有提供注释 POST /question/ai_generate */
+export async function aiGenerateQuestion(
+  body: API.AiGenerateQuestionRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListQuestionContentDTO>('/question/ai_generate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

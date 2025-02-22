@@ -99,3 +99,6 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.answer.controller
+# AI 配置
+ai:
+  apiKey: a7c7e94a54b34607970130bd6b45f863.beprKBPBwnaD6Mg2

@@ -8,12 +8,12 @@ import { useRouter } from 'vue-router'
 // import PictureUpLoader from '@/components/pictureUpLoder.vue'
 
 interface Props {
-  id: number
+  id: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   id: () => {
-    return 0
+    return ""
   },
 })
 
@@ -37,7 +37,7 @@ const loadData = async () => {
     return
   }
   const res = await getAppVoById({
-    id: props.id,
+    id: Number(props.id),
   })
   if (res.data.code === 0 && res.data.data) {
     oldApp.value = res.data.data
@@ -60,7 +60,7 @@ const handleSubmit = async () => {
   // 如果是修改
   if (props.id) {
     res = await editApp({
-      id: props.id,
+      id: Number(props.id),
       ...form.value,
     })
   } else {
@@ -70,7 +70,7 @@ const handleSubmit = async () => {
   if (res.data.code === 0) {
     message.success('操作成功，即将跳转到应用详情页')
     setTimeout(() => {
-      router.push(`/app/detail/${props.id ?? res.data.data}`)
+      router.push(`/app/detail/${props.id || res.data.data}`)
     }, 3000)
   } else {
     message.error('操作失败，' + res.data.message)
