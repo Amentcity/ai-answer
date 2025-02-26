@@ -52,7 +52,7 @@ const doMenuClick = (key: string) => {
         >
           <div class="titleBar">
             <img class="logo" src="../assets/logo.png" />
-            <div class="title">鱼答答</div>
+            <div class="title">问答答</div>
           </div>
         </a-menu-item>
         <a-menu-item v-for="item in visibleRoutes" :key="item.path">

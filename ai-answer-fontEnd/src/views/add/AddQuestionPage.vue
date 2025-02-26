@@ -124,6 +124,27 @@ const onAiGenerateSuccess = ( result: API.QuestionContentDTO[]) => {
   questionContent.value = [...questionContent.value, ...result]
 }
 
+/**
+ * Ai 生成题目成功后执行(SSE)
+ */
+const onAiGenerateSuccessSSE = ( result: API.QuestionContentDTO) => {
+  questionContent.value = [...questionContent.value, result]
+}
+
+/**
+ * SSE 开始生成
+ */
+const onSSeStart =()=>{
+  message.success("开始生成");
+}
+
+/**
+ * SSE 生成完毕
+ */
+const onSSEClose=()=>{
+  message.success("生成完毕");
+}
+
 watchEffect(() => {
   loadData()
 })
@@ -139,8 +160,11 @@ watchEffect(() => {
         <a-button type="primary" @click="addQuestionItem">添加题目</a-button>
         <!-- AI 生成抽屉 -->
         <AiGenerateQuestionDrawer
-          :appId="appId"
+          :appId="String(appId)"
           :onSuccess="onAiGenerateSuccess"
+          :onSSESuccess="onAiGenerateSuccessSSE"
+          :onSSEStart="onSSeStart"
+          :onSSEClose="onSSEClose"
         />
       </a-space>
     </a-form-item>
@@ -208,7 +232,6 @@ watchEffect(() => {
       <a-button size="large" type="primary" @click="handleSubmit">提交</a-button>
     </div>
   </div>
-  {{ questionContent }}
 </template>
 <style scoped>
 .formItem {

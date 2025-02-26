@@ -57,7 +57,7 @@ const loadData = async () => {
     return;
   }
   // 获取 app
-  let res: any = await getAppVoById({
+  let res :any = await getAppVoById({
     id: Number(props.appId),
   });
   if (res.data.code === 0) {

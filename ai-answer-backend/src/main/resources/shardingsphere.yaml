@@ -1,0 +1,24 @@
+dataSources:
+  ai_answer:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/ai_answer?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: admin
+  # 配置其他数据源
+rules:
+  - !SHARDING
+    tables:
+      user_answer:
+        actualDataNodes: ai_answer.user_answer_$->{0..1}
+        tableStrategy:
+          standard:
+            shardingColumn: app_id
+            shardingAlgorithmName: user_answer_inline
+    shardingAlgorithms:
+      user_answer_inline:
+        type: INLINE
+        props:
+          algorithm-expression: user_answer_$->{app_id % 2}
+props:
+  sql-show: true

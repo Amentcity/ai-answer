@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {reactive, ref} from 'vue'
 import { aiGenerateQuestion } from '@/servers/api/questionController.ts'
 import message from '@arco-design/web-vue/es/message'
 
@@ -18,6 +18,9 @@ const handleCancel = () => {
 interface Props {
   appId: string
   onSuccess?: (result: API.QuestionContentDTO[]) => void
+  onSSESuccess?:(result: API.QuestionContentDTO) => void
+  onSSEStart?:(event:Event)=>void
+  onSSEClose?:(event:Event)=>void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,7 +29,7 @@ const props = withDefaults(defineProps<Props>(), {
   },
 })
 
-const form = ref({
+const form = reactive({
   optionNumber: 2,
   questionNumber: 10,
 } as API.AiGenerateQuestionRequest)
@@ -38,9 +41,9 @@ const handleSubmit = async () => {
   submitting.value = true
   const res = await aiGenerateQuestion({
     appId: Number(props.appId),
-    ...form.value,
+    ...form,
   })
-  if (res.data.code === 0 && res.data.data.length > 0) {
+  if (res.data.code === 0 && res.data.data) {
     if (props.onSuccess) {
       props.onSuccess(res.data.data)
     } else {
@@ -54,7 +57,48 @@ const handleSubmit = async () => {
   submitting.value = false
 }
 
-const submitting = ref(false)
+const submitting = ref(false);
+
+const sseSubmitting = ref(false);
+
+/**
+ * 提交（实时生成）
+ */
+const handleSSESubmit=()=>{
+  if (!props.appId)return;
+  sseSubmitting.value=true;
+  // 创建 SSE 请求
+  const eventSource = new EventSource(
+    // todo 手动填写完整的后端地址
+    `http://localhost:8001/api/question/ai_generate/sse?appId=${props.appId}&questionNumber=${form.questionNumber}&optionNumber=${form.optionNumber}`
+  );
+
+  let first =true;
+  // 接收消息
+  eventSource.onmessage = function (event) {
+    if (first){
+      props.onSSEStart?.(event);
+      handleCancel();
+      first = !first;
+    }
+    props.onSSESuccess?.(JSON.parse(event.data));
+  }
+
+  eventSource.onopen= function (event) {
+    console.log("建立连接");
+    props.onSSEStart?.(event);
+    handleCancel();
+  }
+  // 报错或关闭时触发
+  eventSource.onerror= function (event) {
+    if (event.eventPhase===EventSource.CLOSED){
+      props.onSSEClose?.(event);
+      console.log("关闭连接");
+      eventSource.close()
+    }
+  }
+  sseSubmitting.value=false;
+}
 </script>
 
 <template>
@@ -70,7 +114,7 @@ const submitting = ref(false)
         @submit="handleSubmit"
       >
         <a-form-item field="id" label="应用id">
-          <label>{{appId}}</label>
+          <label>{{ appId }}</label>
         </a-form-item>
         <a-form-item field="questionNumber" label="题目数量">
           <a-input-number
@@ -89,9 +133,15 @@ const submitting = ref(false)
           />
         </a-form-item>
         <a-form-item>
-          <a-button :loading="submitting" type="primary" html-type="submit" style="width: 120px">
-            一键生成
-          </a-button>
+          <a-space>
+
+            <a-button :loading="submitting" type="primary" html-type="submit" style="width: 120px">
+              {{ submitting?"生成中":"一键生成" }}
+            </a-button>
+            <a-button :loading="sseSubmitting" @click="handleSSESubmit" style="width: 120px">
+              {{ sseSubmitting?"生成中":"实时生成" }}
+            </a-button>
+          </a-space>
         </a-form-item>
       </a-form>
     </div>
