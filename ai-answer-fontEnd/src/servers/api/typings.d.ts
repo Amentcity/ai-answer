@@ -5,6 +5,15 @@ declare namespace API {
     optionNumber?: number
   }
 
+  type aiGenerateQuestionSSEParams = {
+    aiGenerateQuestionRequest: AiGenerateQuestionRequest
+  }
+
+  type aiGenerateQuestionSSETestParams = {
+    aiGenerateQuestionRequest: AiGenerateQuestionRequest
+    isVip: boolean
+  }
+
   type App = {
     id?: number
     appName?: string
@@ -28,6 +37,16 @@ declare namespace API {
     appIcon?: string
     appType?: number
     scoringStrategy?: number
+  }
+
+  type AppAnswerContentDTO = {
+    appId?: number
+    answerContent?: number
+  }
+
+  type AppAnswerResultContentDTO = {
+    resultName?: string
+    resultContent?: string
   }
 
   type AppEditRequest = {
@@ -104,6 +123,18 @@ declare namespace API {
   type BaseResponseInteger = {
     code?: number
     data?: number
+    message?: string
+  }
+
+  type BaseResponseListAppAnswerContentDTO = {
+    code?: number
+    data?: AppAnswerContentDTO[]
+    message?: string
+  }
+
+  type BaseResponseListAppAnswerResultContentDTO = {
+    code?: number
+    data?: AppAnswerResultContentDTO[]
     message?: string
   }
 
@@ -241,6 +272,10 @@ declare namespace API {
 
   type DeleteRequest = {
     id?: number
+  }
+
+  type getAppAnswerResultCountParams = {
+    appId: number
   }
 
   type getAppVOByIdParams = {
@@ -672,6 +707,10 @@ declare namespace API {
     user?: UserVO
   }
 
+  type SseEmitter = {
+    timeout?: number
+  }
+
   type uploadFileParams = {
     uploadFileRequest: UploadFileRequest
   }
@@ -722,6 +761,7 @@ declare namespace API {
   type UserAnswerAddRequest = {
     appId?: number
     choices?: string[]
+    id?: number
   }
 
   type UserAnswerEditRequest = {

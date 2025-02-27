@@ -11,7 +11,7 @@ import { useRouter } from "vue-router";
 import { listQuestionVoByPage } from "@/servers/api/questionController";
 import message from "@arco-design/web-vue/es/message";
 import { getAppVoById } from "@/servers/api/appController";
-import { addUserAnswer } from "@/servers/api/userAnswerController";
+import {addUserAnswer, generateUserAnswerId} from "@/servers/api/userAnswerController";
 
 interface Props {
   appId: string;
@@ -82,6 +82,58 @@ const loadData = async () => {
   }
 };
 
+// 是否正在提交
+const submitting = ref(false);
+
+/**
+ * 选中选项后，保存选项记录
+ * @param value
+ */
+const doRadioChange = (value: string) => {
+  answerList[current.value - 1] = value;
+};
+
+// 唯一id
+const id = ref<number>()
+
+/**
+ * 生成唯一id
+ */
+const generateId = async () =>{
+  const res =await generateUserAnswerId();
+  if (res.data.code == 0 ){
+    id.value = res.data.data;
+  } else {
+    message.error("获取唯一id失败，"+ res.data.message);
+  }
+}
+
+/**
+ * 提交
+ */
+const doSubmit = async () => {
+  if (!props.appId || !answerList) {
+    return;
+  }
+  submitting.value=true;
+  const res = await addUserAnswer({
+    id: id.value,
+    appId: Number(props.appId),
+    choices: answerList,
+  });
+  if (res.data.code === 0 && res.data.data) {
+    router.push(`/answer/result/${res.data.data}`);
+  } else {
+    message.error("提交答案失败，" + res.data.message);
+  }
+  submitting.value=false;
+};
+
+// 进入页面时，生成唯一id
+watchEffect((() => {
+  generateId()
+}))
+
 // 获取旧数据
 watchEffect(() => {
   loadData();
@@ -93,35 +145,6 @@ watchEffect(() => {
   currentAnswer.value = answerList[current.value - 1];
 });
 
-/**
- * 选中选项后，保存选项记录
- * @param value
- */
-const doRadioChange = (value: string) => {
-  answerList[current.value - 1] = value;
-};
-
-/**
- * 提交
- */
-const doSubmit = async () => {
-  if (!props.appId || !answerList) {
-    return;
-  }
-  submitting.value=true;
-  const res = await addUserAnswer({
-    appId: Number(props.appId),
-    choices: answerList,
-  });
-  if (res.data.code === 0 && res.data.data) {
-    router.push(`/answer/result/${res.data.data}`);
-  } else {
-    message.error("提交答案失败，" + res.data.message);
-  }
-  submitting.value=false;
-};
-// 是否正在提交
-const submitting = ref(false);
 </script>
 
 <template>

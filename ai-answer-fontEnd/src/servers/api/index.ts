@@ -11,6 +11,7 @@ import * as postFavourController from './postFavourController'
 import * as postController from './postController'
 import * as fileController from './fileController'
 import * as appController from './appController'
+import * as appStatisticController from './appStatisticController'
 export default {
   userAnswerController,
   userController,
@@ -21,4 +22,5 @@ export default {
   postController,
   fileController,
   appController,
+  appStatisticController,
 }

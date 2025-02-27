@@ -5,6 +5,7 @@ import { getAppVoById } from '@/servers/api/appController.ts'
 import { dayjs } from '@arco-design/web-vue/es/_utils/date'
 import { userLoginStore } from '@/stores/counter.ts'
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from '@/constant/app.ts'
+import ShareModal from "@/components/ShareModal.vue";
 
 // const router = useRouter();
 const data = ref<API.AppVO>({})
@@ -47,6 +48,20 @@ const loadData = async () => {
   }
 }
 
+const shareModalRef = ref();
+
+// 分享弹窗的引用
+const shareLink = `${window.location.protocol}//${window.location.host}/app/detail/${props.id}`;
+
+// 分享
+const doShare = (e:Event) => {
+  if (shareModalRef.value) {
+    shareModalRef.value.openModal();
+  }
+  // 阻止冒泡跳转到详情页
+  e.stopPropagation();
+}
+
 watchEffect(() => {
   loadData()
 })
@@ -78,7 +93,7 @@ watchEffect(() => {
           <p>创建时间：{{dayjs(data.createTime).format("YYYY-MM-DD HH:mm:ss")}}</p>
           <a-space size="large">
             <a-button type="primary" :href="`/answer/do/${id}`">开始答题</a-button>
-            <a-button type="primary">分享应用</a-button>
+            <a-button type="primary" @click="doShare">分享应用</a-button>
             <a-button type="primary" :href="`/add/question/${id}`">设置题目</a-button>
             <a-button type="primary" :href="`/add/scoring_result/${id}`">设置评分</a-button>
             <a-button v-if="isMy" :href="`/add/app/${id}`">修改应用</a-button>
@@ -90,6 +105,7 @@ watchEffect(() => {
       </a-row>
     </a-card>
   </div>
+  <ShareModal tile="应用分享" :link="shareLink" ref="shareModalRef"/>
 </template>
 
 <style scoped>

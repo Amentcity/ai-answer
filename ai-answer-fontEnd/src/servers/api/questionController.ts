@@ -29,6 +29,40 @@ export async function aiGenerateQuestion(
   })
 }
 
+/** 此处后端没有提供注释 GET /question/ai_generate/sse */
+export async function aiGenerateQuestionSse(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.aiGenerateQuestionSSEParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.SseEmitter>('/question/ai_generate/sse', {
+    method: 'GET',
+    params: {
+      ...params,
+      aiGenerateQuestionRequest: undefined,
+      ...params['aiGenerateQuestionRequest'],
+    },
+    ...(options || {}),
+  })
+}
+
+/** 此处后端没有提供注释 GET /question/ai_generate/sse/test */
+export async function aiGenerateQuestionSseTest(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.aiGenerateQuestionSSETestParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.SseEmitter>('/question/ai_generate/sse/test', {
+    method: 'GET',
+    params: {
+      ...params,
+      aiGenerateQuestionRequest: undefined,
+      ...params['aiGenerateQuestionRequest'],
+    },
+    ...(options || {}),
+  })
+}
+
 /** 此处后端没有提供注释 POST /question/delete */
 export async function deleteQuestion(body: API.DeleteRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseBoolean>('/question/delete', {

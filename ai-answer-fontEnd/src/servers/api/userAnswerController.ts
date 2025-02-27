@@ -44,6 +44,14 @@ export async function editUserAnswer(
   })
 }
 
+/** 此处后端没有提供注释 GET /userAnswer/generate/id */
+export async function generateUserAnswerId(options?: { [key: string]: any }) {
+  return request<API.BaseResponseLong>('/userAnswer/generate/id', {
+    method: 'GET',
+    ...(options || {}),
+  })
+}
+
 /** 此处后端没有提供注释 GET /userAnswer/get/vo */
 export async function getUserAnswerVoById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

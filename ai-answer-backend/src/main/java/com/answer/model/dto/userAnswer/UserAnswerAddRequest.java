@@ -2,6 +2,7 @@ package com.answer.model.dto.userAnswer;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,5 +22,11 @@ public class UserAnswerAddRequest implements Serializable {
      */
     private List<String> choices;
 
+    /**
+     * id (用户答案id，用于保证提交答案的幂等性)
+     */
+    private Long id;
+
+    @Serial
     private static final long serialVersionUID = 1L;
 }

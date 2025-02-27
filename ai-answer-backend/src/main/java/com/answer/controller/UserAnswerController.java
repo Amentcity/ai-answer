@@ -1,5 +1,6 @@
 package com.answer.controller;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.answer.model.entity.App;
 import com.answer.model.enums.ReviewStatusEnum;
@@ -25,6 +26,7 @@ import com.answer.service.UserAnswerService;
 import com.answer.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
@@ -82,13 +84,18 @@ public class UserAnswerController {
         User loginUser = userService.getLoginUser(request);
         userAnswer.setUserId(loginUser.getId());
         // 写入数据库
-        boolean result = userAnswerService.save(userAnswer);
-        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        try {
+            boolean result = userAnswerService.save(userAnswer);
+            ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        } catch (DuplicateKeyException e){
+            // ignore error
+        }
         // 返回新写入的数据 id
         long newUserAnswerId = userAnswer.getId();
         // 调用评分模块
         try {
             UserAnswer userAnswerWithResult = scoringStrategyExecutor.doScore(choices, app);
+            userAnswerWithResult.setAppId(null);
             userAnswerWithResult.setId(newUserAnswerId);
             userAnswerService.updateById(userAnswerWithResult);
         } catch (Exception e) {
@@ -142,6 +149,7 @@ public class UserAnswerController {
         UserAnswer userAnswer = new UserAnswer();
         BeanUtils.copyProperties(userAnswerUpdateRequest, userAnswer);
         List<String> choices = userAnswerUpdateRequest.getChoices();
+        userAnswer.setAppId(null);
         userAnswer.setChoices(JSONUtil.toJsonStr(choices));
         // 数据校验
         userAnswerService.validUserAnswer(userAnswer, false);
@@ -263,10 +271,16 @@ public class UserAnswerController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         // 操作数据库
+        userAnswer.setAppId(null);
         boolean result = userAnswerService.updateById(userAnswer);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
 
     // endregion
+
+    @GetMapping("/generate/id")
+    public BaseResponse<Long> generateUserAnswerId(){
+        return ResultUtils.success(IdUtil.getSnowflakeNextId());
+    }
 }
