@@ -1,24 +1,21 @@
 # 线上配置文件
-#</a>
-#
 server:
-  port: 8101
+  port: 8001
+  servlet:
+    session:
+      cookie:
+        # 解决跨域
+        same-site: none
+        secure: true
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   # 数据库配置
-  # todo 需替换配置
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ai_answer
-    username: root
-    password: 123456
-  # Redis 配置
-  # todo 需替换配置
-  redis:
-    database: 1
-    host: localhost
-    port: 6379
-    timeout: 5000
-    password: 123456
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    # 指定 YAML 配置文件
+    url: jdbc:shardingsphere:classpath:shardingsphere.yaml
 mybatis-plus:
   configuration:
     # 生产环境关闭日志
@@ -28,4 +25,7 @@ knife4j:
   basic:
     enable: true
     username: root
-    password: 123456
+    password: admin
+# AI 配置
+ai:
+  apiKey: 替换成自己的密钥
