@@ -7,7 +7,7 @@
     <a-layout style="height: 100vh">
       <a-layout-header class="header">
         <a-space>
-          <img class="logo" src="../assets/logo.png" />
+          <img class="logo" src="../assets/logo.svg" />
           <div>睿智 AI 答题应用平台</div>
         </a-space>
       </a-layout-header>

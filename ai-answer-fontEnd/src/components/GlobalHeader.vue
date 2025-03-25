@@ -51,7 +51,7 @@ const doMenuClick = (key: string) => {
           disabled
         >
           <div class="titleBar">
-            <img class="logo" src="../assets/logo.png" />
+            <img class="logo" src="../assets/logo.svg" />
             <div class="title">问答答</div>
           </div>
         </a-menu-item>

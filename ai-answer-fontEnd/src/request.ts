@@ -1,7 +1,13 @@
 import axios from 'axios'
 
+/**
+ * 是否是开发环境
+ *
+ */
+export const isDev = process.env.NODE_ENV !== 'development'
+
 const instance = axios.create({
-  baseURL: 'http://localhost:8001/api/',
+  baseURL: isDev ? 'http://localhost:8001/api' : '线上地址',
   timeout: 10000,
   // headers: { 'X-Custom-Header': 'foobar' },
   withCredentials: true,
