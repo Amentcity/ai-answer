@@ -2,6 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ai-answer-backend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ai-answer-fontEnd" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/mbit-init" vcs="Git" />
   </component>
 </project>
